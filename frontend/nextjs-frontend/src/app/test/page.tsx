@@ -23,16 +23,14 @@ export default function Home() {
                 </h1>
 
                 <div className="flex gap-6 justify-center">
-                    <AnimatedButton size={0.3} onClick={() => alert('Default clicked!')}>
+                    <AnimatedButton size={1} onClick={() => alert('Default clicked!')}>
                         Default Button
                     </AnimatedButton>
                     <br /><br />
-                    {/* Smaller button */}
                     <AnimatedButton size={0.8} onClick={() => alert('Small button clicked!')}>
                         Small Button
                     </AnimatedButton>
                     <br /><br />
-                    {/* Larger button */}
                     <AnimatedButton size={1.5} onClick={() => alert('Large button clicked!')}>
                         Large Button
                     </AnimatedButton>

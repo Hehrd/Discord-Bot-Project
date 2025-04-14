@@ -15,6 +15,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
         <ClientCustomCursor baseSize={33} stretchMultiplier={0.009} maxStretch={1.5} clickScale={0.9} />
+        {/* <ClientCustomCursor baseSize={100} stretchMultiplier={0.3} maxStretch={20} clickScale={0.7} /> */}
         {children}
       </body>
     </html>

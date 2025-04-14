@@ -10,12 +10,10 @@ export default function Home() {
         </h1>
 
         <div className="flex flex-col gap-8 items-center">
-          {/* Primary Button */}
           <MagneticButton className="px-8 py-4 bg-white text-black rounded-full font-medium text-lg hover:bg-opacity-90 transition-all">
             White Cursor Friendly
           </MagneticButton>
 
-          {/* Colored Button */}
           <MagneticButton
             className="px-8 py-4 bg-blue-600 text-white rounded-full font-medium text-lg
                       hover:bg-blue-500 transition-colors"

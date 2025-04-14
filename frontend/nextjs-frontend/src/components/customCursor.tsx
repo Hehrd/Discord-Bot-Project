@@ -18,13 +18,11 @@ export default function CustomCursor({
     const cursorRef = useRef<HTMLDivElement>(null);
     const innerFillRef = useRef<HTMLDivElement>(null);
 
-    // Stores the latest mouse coordinates.
     const cursorPosRef = useRef({ x: 0, y: 0 });
     const isHoveringButtonRef = useRef(false);
     const isClickingRef = useRef(false);
     const angleRef = useRef(0);
 
-    // On mount, try to read the last mouse position from localStorage.
     useEffect(() => {
         const storedPos = localStorage.getItem('lastMousePos');
         if (storedPos) {
@@ -42,7 +40,6 @@ export default function CustomCursor({
         }
     }, []);
 
-    // Mouse event listeners update refs and store coordinates.
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             const pos = { x: e.clientX, y: e.clientY };
@@ -75,7 +72,6 @@ export default function CustomCursor({
         };
     }, []);
 
-    // Animate the cursor movement.
     useEffect(() => {
         let animationFrame: number;
         const cursorElem = cursorRef.current;

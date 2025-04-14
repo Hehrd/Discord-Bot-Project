@@ -4,10 +4,7 @@ import React, { useState, FC, MouseEventHandler, useMemo, useCallback } from 're
 interface AnimatedButtonProps {
     children: React.ReactNode;
     onClick?: MouseEventHandler<HTMLButtonElement>;
-    /**
-     * Base size factor for the button.
-     * 1 is normal size, values below 1 shrink the button, above 1 enlarge it.
-     */
+
     size?: number;
 }
 
@@ -15,11 +12,9 @@ const AnimatedButton: FC<AnimatedButtonProps> = ({ children, onClick, size = 1 }
     const [isHovered, setIsHovered] = useState(false);
     const [isActive, setIsActive] = useState(false);
 
-    // Compute the interactive scale factor based on hover/active state.
     const interactiveScale = isHovered ? (isActive ? 0.95 : 1.05) : 1;
     const totalScale = size * interactiveScale;
 
-    // Dynamic styles for the outer container.
     const outerStyle = useMemo(() => ({
         display: 'inline-block',
         border: '2px solid #000',
@@ -30,10 +25,9 @@ const AnimatedButton: FC<AnimatedButtonProps> = ({ children, onClick, size = 1 }
         willChange: 'transform'
     }), [totalScale]);
 
-    // Dynamic styles for the inner button.
     const buttonStyle = useMemo(() => ({
         background: isHovered ? '#fafafa' : '#ffffff',
-        border: 'none', // inner button has no border; the outer container provides it
+        border: 'none',
         borderRadius: '8px',
         padding: '12px 24px',
         fontSize: '16px',
@@ -43,14 +37,13 @@ const AnimatedButton: FC<AnimatedButtonProps> = ({ children, onClick, size = 1 }
         boxShadow: isHovered ? '0 0 12px rgba(0, 0, 0, 0.15)' : 'none',
     }), [isHovered]);
 
-    // Dynamic text styling.
+
     const textStyle = useMemo(() => ({
         position: 'relative',
         color: 'white',
         mixBlendMode: 'difference',
     }), []);
 
-    // Stable event handlers.
     const handleMouseEnter = useCallback(() => setIsHovered(true), []);
     const handleMouseLeave = useCallback(() => {
         setIsHovered(false);
@@ -74,7 +67,6 @@ const AnimatedButton: FC<AnimatedButtonProps> = ({ children, onClick, size = 1 }
                     <span style={textStyle}>{children}</span>
                 </button>
             </div>
-            {/* Inline the pseudo-element styles using styled JSX */}
             <style jsx>{`
         button {
           position: relative;

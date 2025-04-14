@@ -2,14 +2,8 @@
 import React, { FC } from 'react';
 
 interface NavLinkProps {
-    /** Link text or element */
     children: React.ReactNode;
-    /** Destination URL */
     href: string;
-    /**
-     * Optional Tailwind text size class (e.g., "text-xs", "text-sm", "text-base", or "text-lg").
-     * Defaults to "text-base".
-     */
     textSize?: string;
 }
 
