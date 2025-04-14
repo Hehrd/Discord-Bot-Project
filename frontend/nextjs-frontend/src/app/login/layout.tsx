@@ -1,10 +1,8 @@
 // app/login/layout.tsx (Login-specific Layout)
 export default function LoginLayout({ children }: { children: React.ReactNode }) {
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-100">
-            <div className="w-full max-w-sm p-8 bg-white rounded-lg shadow-md">
-                {children}
-            </div>
+        <div className="flex items-center min-h-screen bg-gray-100">
+            {children}
         </div>
     );
 }
