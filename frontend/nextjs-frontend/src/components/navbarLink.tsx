@@ -13,7 +13,9 @@ const NavLink: FC<NavLinkProps> = ({ children, href, textSize = 'text-base' }) =
             {children}
             <style jsx>{`
                 .navlink {
-                    display: inline-block;
+                    display: inline-flex;
+                    justify-content: center;
+                    align-items: center;
                     padding: 0.4rem 1rem; /* reduced vertical padding */
                     border: 2px solid transparent;
                     border-radius: 9999px; /* pill shape */
