@@ -1,16 +1,13 @@
 package com.alexander.service;
 
-import com.alexander.Application;
-import com.alexander.controller.model.DTO;
 import com.alexander.controller.model.ValidationData;
-import com.alexander.persistence.model.BaseEntity;
+import com.alexander.persistence.model.entities.BaseEntity;
 import com.alexander.validation.validations.Validations;
 import com.alexander.validation.validator.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Service

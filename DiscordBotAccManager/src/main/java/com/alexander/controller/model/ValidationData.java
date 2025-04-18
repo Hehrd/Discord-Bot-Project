@@ -1,6 +1,6 @@
 package com.alexander.controller.model;
 
-import com.alexander.persistence.model.BaseEntity;
+import com.alexander.persistence.model.entities.BaseEntity;
 
 import java.util.HashMap;
 import java.util.Map;

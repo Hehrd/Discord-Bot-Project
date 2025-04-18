@@ -1,25 +1,40 @@
-package com.alexander.bot.ssh;
+package com.alexander.ssh.client;
 
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+@Component
 public class SSHClient {
-    public String executeRemoteCmd(Connector connector, String cmd) throws JSchException, IOException, InterruptedException {
+    @Value("${ssh.client.host}")
+    private String host;
+
+    @Value("${ssh.client.port}")
+    private int port;
+
+    @Value("${ssh.client.username}")
+    private String username;
+
+    @Value("${ssh.client.password}")
+    private String password;
+
+    public String executeRemoteCmd(String cmd) throws JSchException, IOException, InterruptedException {
         StringBuilder output = new StringBuilder();
         Session session;
         ChannelExec channel;
-
+//        Connector connector;
         session = createSession(
-                connector.getHost(),
-                connector.getPort(),
-                connector.getUsername(),
-                connector.getPassword());
+                host,
+                port,
+                username,
+                password);
 
         channel = (ChannelExec) session.openChannel("exec");
         channel.setCommand(cmd);
@@ -45,6 +60,9 @@ public class SSHClient {
         session.disconnect();
         return output.toString();
     }
+//    public Map<String, String> executeRemoteCmds(Connector connector, Collection<String> cmds) throws JSchException, IOException, InterruptedException {
+//
+//    }
 
     private Session createSession(String host, int port, String username, String password) throws JSchException {
         JSch jsch = new JSch();

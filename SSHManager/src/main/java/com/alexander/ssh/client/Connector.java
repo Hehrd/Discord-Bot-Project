@@ -1,5 +1,8 @@
-package com.alexander.bot.ssh;
+package com.alexander.ssh.client;
 
+import lombok.Data;
+
+@Data
 public class Connector {
     private String host;
     private int port;
