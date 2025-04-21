@@ -1,4 +1,4 @@
-package com.alexander.controller;
+package com.alexander.controller.controllers;
 
 import com.alexander.controller.model.request.ActivateKeyRequestDTO;
 import com.alexander.service.UserAccService;

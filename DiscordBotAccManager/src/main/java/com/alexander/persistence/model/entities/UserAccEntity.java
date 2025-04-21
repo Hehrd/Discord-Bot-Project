@@ -17,5 +17,8 @@ public class UserAccEntity extends BaseEntity {
     @JoinColumn(nullable = true, unique = true, name = "apiKey", referencedColumnName = "id")
     private ApiKeyEntity apiKey;
 
+    @Column(nullable = true, unique = true, name = "securityToken")
+    private String securityToken;
+
 
 }
