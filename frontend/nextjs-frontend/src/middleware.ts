@@ -22,7 +22,7 @@ export async function middleware(request: NextRequest) {
     }
 
     const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
-    const protectedPaths = ['/test', '/', '/getting-started',];
+    const protectedPaths = ['/test', '/', '/getting-started', '/containers'];
 
     if (protectedPaths.includes(request.nextUrl.pathname) && !token) {
         const loginUrl = request.nextUrl.clone();
@@ -34,5 +34,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/login', '/test', '/', '/getting-started', '/logout'],
+    matcher: ['/login', '/test', '/', '/getting-started', '/logout', '/containers'],
 };

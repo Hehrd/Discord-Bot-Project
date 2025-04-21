@@ -13,7 +13,7 @@ const NavBar: React.FC = () => {
     const pathname = usePathname();
 
     const navItems: NavItem[] = [
-        { label: 'Containers', href: '/' },
+        { label: 'Containers', href: '/containers' },
         { label: 'Getting Started', href: '/getting-started' },
         { label: 'Features', href: '/features' },
         { label: 'About Us', href: '/about' },
