@@ -13,9 +13,11 @@ export const handler = NextAuth({
             },
         }),
     ],
-    callbacks: {
+    debug: true, callbacks: {
         async jwt({ token, account, user }) {
             if (account && user) {
+		console.log('ACCESS TOKEN GOSHETO E GEJ');
+		console.log(account.access_token);
                 token.accessToken = account.access_token;
                 token.id = user.id;
                 token.email = user.email;
@@ -25,6 +27,7 @@ export const handler = NextAuth({
         },
         async session({ session, token }) {
             if (token) {
+		console.log(token.accessToken);
                 session.accessToken = token.accessToken;
                 session.user.id = token.id;
                 session.user.email = token.email;

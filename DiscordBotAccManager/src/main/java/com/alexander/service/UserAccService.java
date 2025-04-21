@@ -68,7 +68,7 @@ public class UserAccService {
         headers.setBearerAuth(accessToken);
         headers.set("Accept", "application/json");
         HttpEntity<String> entity = new HttpEntity<>(headers);
-        ResponseEntity<DiscordAccResponse> responseEntity = restTemplate.exchange(DISCORD_OAUTH_URL, HttpMethod.POST, entity, DiscordAccResponse.class);
+        ResponseEntity<DiscordAccResponse> responseEntity = restTemplate.exchange(DISCORD_OAUTH_URL, HttpMethod.GET, entity, DiscordAccResponse.class);
         return responseEntity.getBody();
     }
 
