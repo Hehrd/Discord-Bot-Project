@@ -1,9 +1,11 @@
+// app/layout.tsx
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import PageWrapper from '@/components/pageWrapper';
 import ConditionalNavBar from '@/components/conditionalNavbar';
 import ClientCustomCursor from '@/components/clientCustomCursor';
+import AuthProvider from '@/components/authProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -24,7 +26,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           maxStretch={1.3}
           clickScale={0.9}
         />
-        <PageWrapper>{children}</PageWrapper>
+
+        <AuthProvider>
+          <PageWrapper>{children}</PageWrapper>
+        </AuthProvider>
       </body>
     </html>
   );
