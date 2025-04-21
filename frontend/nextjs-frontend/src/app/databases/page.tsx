@@ -1,10 +1,10 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import AnimatedButton from '@/components/animatedButton';
 
-type Container = { name: string };
+type Database = { name: string };
 
 type PagedResponse<T> = {
     content: T[];
@@ -12,26 +12,27 @@ type PagedResponse<T> = {
     pageSize: number;
 };
 
-export default function ContainersPage() {
+export default function DatabasesPage() {
     const { data: session } = useSession();
     const router = useRouter();
     const searchParams = useSearchParams();
 
-    const [containers, setContainers] = useState<Container[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-
+    const containerName = searchParams.get('container');
     const page = Number(searchParams.get('page') || 0);
     const initialSize = Number(searchParams.get('size') || 5);
     const [size, setSize] = useState(initialSize);
 
-    useEffect(() => {
-        if (!session) return;
+    const [databases, setDatabases] = useState<Database[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-        const fetchContainers = async () => {
+    useEffect(() => {
+        if (!session || !containerName) return;
+
+        const fetchDatabases = async () => {
             try {
                 const res = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_BASE}/containers?page=${page}&size=${size}`,
+                    `${process.env.NEXT_PUBLIC_API_BASE}/databases?container=${containerName}&page=${page}&size=${size}`,
                     {
                         headers: {
                             Authorization: `Bearer ${session.accessToken}`,
@@ -39,40 +40,44 @@ export default function ContainersPage() {
                     }
                 );
 
-                if (!res.ok) throw new Error('Failed to fetch containers');
-                const data: PagedResponse<Container> = await res.json();
-                setContainers(data.content);
+                if (!res.ok) throw new Error('Failed to fetch databases');
+                const data: PagedResponse<Database> = await res.json();
+                setDatabases(data.content);
             } catch (err: any) {
-                setError(err.message || 'Error loading containers');
+                setError(err.message || 'Error loading databases');
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchContainers();
-    }, [session, page, size]);
+        fetchDatabases();
+    }, [session, containerName, page, size]);
 
     const handleNext = () => {
-        router.push(`/containers?page=${page + 1}&size=${size}`);
+        router.push(`/databases?container=${containerName}&page=${page + 1}&size=${size}`);
     };
 
     const handlePrev = () => {
-        if (page > 0) router.push(`/containers?page=${page - 1}&size=${size}`);
+        if (page > 0) {
+            router.push(`/databases?container=${containerName}&page=${page - 1}&size=${size}`);
+        }
     };
 
     const handleSizeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newSize = Math.max(1, Number(e.target.value));
         setSize(newSize);
-        router.push(`/containers?page=0&size=${newSize}`);
+        router.push(`/databases?container=${containerName}&page=0&size=${newSize}`);
     };
 
     return (
         <main className="min-h-screen bg-white px-6 py-10 flex flex-col items-center">
-            <h1 className="text-3xl font-bold mb-6 text-center">Select a Container</h1>
+            <h1 className="text-3xl font-bold mb-6 text-center">
+                Databases in "{containerName}"
+            </h1>
 
             <div className="mb-6 text-center">
                 <label htmlFor="pageSize" className="block font-medium mb-2">
-                    Containers per page:
+                    Databases per page:
                 </label>
                 <input
                     id="pageSize"
@@ -85,24 +90,24 @@ export default function ContainersPage() {
             </div>
 
             {loading ? (
-                <p className="text-gray-600">Loading containers...</p>
+                <p className="text-gray-600">Loading databases...</p>
             ) : error ? (
                 <p className="text-red-600">{error}</p>
-            ) : containers.length === 0 ? (
-                <p className="text-gray-600">No containers available.</p>
+            ) : databases.length === 0 ? (
+                <p className="text-gray-600">No databases found.</p>
             ) : (
                 <>
                     <div className="flex flex-col items-center gap-4 mb-8 w-full max-w-md">
-                        {containers.map((container) => (
+                        {databases.map((db) => (
                             <AnimatedButton
-                                key={container.name}
+                                key={db.name}
                                 onClick={() =>
                                     router.push(
-                                        `/databases?container=${encodeURIComponent(container.name)}&page=0&size=5`
+                                        `/tables?container=${encodeURIComponent(containerName!)}&database=${encodeURIComponent(db.name)}&page=0&size=40`
                                     )
                                 }
                             >
-                                {container.name}
+                                {db.name}
                             </AnimatedButton>
                         ))}
                     </div>
