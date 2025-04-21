@@ -1,10 +1,10 @@
 package com.alexander.bot.tools;
 
-import com.alexander.bot.cmd.commands.BotCommand;
-import com.alexander.bot.cmd.commands.HelloBotCommand;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component
 public class SelectInterpreter extends SqlInterpeter{
 
     public SelectInterpreter() {

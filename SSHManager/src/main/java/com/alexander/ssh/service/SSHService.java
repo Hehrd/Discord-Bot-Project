@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 
 @Service
 public class SSHService {
@@ -14,5 +16,9 @@ public class SSHService {
 
     public String executeCmd(String cmd) throws JSchException, IOException, InterruptedException {
         return sshClient.executeRemoteCmd(cmd);
+    }
+
+    public String executeCmds(List<String> cmds) throws JSchException, IOException, InterruptedException {
+        return sshClient.executeRemoteShellCommands(cmds);
     }
 }

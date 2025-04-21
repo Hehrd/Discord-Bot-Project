@@ -1,0 +1,28 @@
+package com.alexander.bot.tools;
+
+import java.util.Map;
+
+public class DropDatabaseInterpreter extends SqlInterpeter{
+    public DropDatabaseInterpreter() {
+        super("DROP DATABASE");
+    }
+
+    @Override
+    public String createSqlString(Map<String, String> options) {
+        StringBuffer sql = new StringBuffer();
+        sql.append(baseSql);
+        appendName(sql, options.get("name"));
+        sql.append(";");
+        return sql.toString();
+    }
+
+    @Override
+    protected void initDefaultOptions() {
+
+    }
+
+    private void appendName(StringBuffer sql, String name) {
+        sql.append(" ");
+        sql.append(name);
+    }
+}

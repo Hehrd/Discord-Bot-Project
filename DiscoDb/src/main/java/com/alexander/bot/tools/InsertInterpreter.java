@@ -7,28 +7,25 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class CreateTableInterpreter extends SqlInterpeter {
-    public CreateTableInterpreter() {
-        super("CREATE TABLE");
+public class InsertInterpreter extends SqlInterpeter {
+    public InsertInterpreter() {
+        super("INSERT INTO");
     }
 
     @Override
     public String createSqlString(Map<String, String> options) {
         StringBuffer sql = new StringBuffer();
-        sql.append(baseSql);
         appendTable(sql, options.get("table"));
         appendColumns(sql, options.get("columns"));
+        appendValues(sql, options.get("values"));
         sql.append(";");
         return sql.toString();
     }
 
     @Override
     protected void initDefaultOptions() {
-        defaultOptions.put("columns_to_select", "*");
+
     }
-
-
-
 
     private void appendTable(StringBuffer sql, String table) {
         sql.append(" ");
@@ -36,15 +33,27 @@ public class CreateTableInterpreter extends SqlInterpeter {
     }
 
     private void appendColumns(StringBuffer sql, String columns) {
-        List<String> columnsList = Arrays.asList(columns.split(";"));
         sql.append(" ");
         sql.append("(");
-        for (int i = 0; i < columnsList.size(); i++) {
+        List<String> columnList = Arrays.asList(columns.split(";"));
+        for (int i = 0; i < columnList.size(); i++) {
             if (i > 0) {
                 sql.append(", ");
             }
-            List<String> columnProperties = Arrays.asList(columnsList.get(i).split(":"));
-
+            sql.append(columnList.get(i));
         }
+        sql.append(")");
+    }
+    private void appendValues(StringBuffer sql, String values) {
+        sql.append(" ");
+        sql.append("VALUES(");
+        List<String> valuesList = Arrays.asList(values.split(";"));
+        for (int i = 0; i < valuesList.size(); i++) {
+            if (i > 0) {
+                sql.append(", ");
+            }
+            sql.append(valuesList.get(i));
+        }
+        sql.append(")");
     }
 }

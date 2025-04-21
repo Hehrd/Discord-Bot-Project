@@ -20,14 +20,13 @@ public class UserDataController {
     @Autowired
     private UserDataService userDataService;
 
-    @RequestMapping(value = "/containers/{discordId}", method = RequestMethod.GET)
-    public ResponseEntity<PagedResponse> getContainers(@PathVariable String discordId,
-                                                       @RequestHeader("Authorization") String key,
+    @RequestMapping(value = "/containers", method = RequestMethod.GET)
+    public ResponseEntity<PagedResponse> getContainers(@RequestHeader("Authorization") String accessToken,
                                                        Pageable pageable) {
-        AuthenticatedUserRequestDTO authenticatedUserRequestDTO = new AuthenticatedUserRequestDTO();
-        authenticatedUserRequestDTO.setDiscordId(discordId);
-        authenticatedUserRequestDTO.setApiKey(key);
-        PagedResponse<ContainerResponseDTO> containerPage = userDataService.getUserContainers(authenticatedUserRequestDTO, pageable);
+//        AuthenticatedUserRequestDTO authenticatedUserRequestDTO = new AuthenticatedUserRequestDTO();
+//        authenticatedUserRequestDTO.setDiscordId(discordId);
+//        authenticatedUserRequestDTO.setApiKey(key);
+        PagedResponse<ContainerResponseDTO> containerPage = userDataService.getUserContainers(accessToken, pageable);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(containerPage);
@@ -39,5 +38,17 @@ public class UserDataController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body("Successfully created container!");
+    }
+
+    @RequestMapping(value = "/rows", method = RequestMethod.GET)
+    public ResponseEntity<String> getRows(@RequestHeader("Authorization") String accessToken,
+                                          @RequestParam String container,
+                                          @RequestParam String database,
+                                          @RequestParam String table,
+                                          Pageable pageable) {
+        String rows = userDataService.getRows(accessToken, container, database, table, pageable);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(rows);
     }
 }

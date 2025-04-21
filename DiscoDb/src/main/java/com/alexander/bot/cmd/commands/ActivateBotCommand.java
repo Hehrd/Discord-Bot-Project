@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,15 +31,19 @@ public class ActivateBotCommand extends RestCommand {
         AddKeyRequestDTO addKeyRequestDTO = new AddKeyRequestDTO();
         addKeyRequestDTO.setApiKey(apiKey);
         addKeyRequestDTO.setDiscordId(discordId);
-        String url = "http://localhost:6969/discodb/addKey";
+        String url = "http://localhost:6969/acc/apikeys/activate";
         restTemplate.postForEntity(url, addKeyRequestDTO, String.class);
     }
 
     @Override
     protected void initOptions() {
-        List<OptionData> optionsList = new ArrayList<>();
-        optionsList.add(new OptionData(OptionType.STRING, "api_key", "API key to activate our services for your account", true));
-        options = Optional.of(optionsList);
+        options = new ArrayList<>();
+        options.add(new OptionData(OptionType.STRING, "api_key", "API key to activate our services for your account", true));
+    }
+
+    @Override
+    protected void initSubcommandGroups(ApplicationContext applicationContext) {
+        subcommandGroups = new HashMap<>();
     }
 
     @Override
