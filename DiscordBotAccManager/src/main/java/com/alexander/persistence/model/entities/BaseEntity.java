@@ -1,4 +1,4 @@
-package com.alexander.persistence.model;
+package com.alexander.persistence.model.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
