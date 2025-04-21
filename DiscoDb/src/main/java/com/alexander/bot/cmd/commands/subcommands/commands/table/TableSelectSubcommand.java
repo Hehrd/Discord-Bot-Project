@@ -30,7 +30,7 @@ public class TableSelectSubcommand extends BotSubcommand {
                         "/usr/local/bin/docker exec %1$s " +
                         "psql -h localhost -p 5432 -U postgres " +
                         "-d %2$s -c \"%3$s\"",
-                containerName, event.getOption("database"), sqlInterpeter.createSqlString(getOptionsMap(event))
+                containerName, event.getOption("database").getAsString(), sqlInterpeter.createSqlString(getOptionsMap(event))
         );
         ResponseEntity<String> output = restTemplate.postForEntity("http://localhost:15000/ssh/execcmd", cmd, String.class);
         event.reply(output.getBody()).queue();
