@@ -29,20 +29,10 @@ public class ContainerCreateSubcommand extends BotSubcommand {
 
         String cmd = String.format("/usr/local/bin/docker create --name %s -e POSTGRES_PASSWORD=pass -p 5432:5432 postgres", name);
         ResponseEntity<String> output = restTemplate.postForEntity("http://localhost:15000/ssh/execcmd", cmd, String.class);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 658f45d (commitche6)
         CreateContainerRequestDTO createContainerRequestDTO = new CreateContainerRequestDTO();
         createContainerRequestDTO.setName(name.toString());
         createContainerRequestDTO.setDiscordId(event.getUser().getId());
         restTemplate.postForEntity("http://localhost:6969/containers", createContainerRequestDTO, String.class);
-<<<<<<< HEAD
-=======
-//        restTemplate.postForEntity("http://localhost:6969/containers", event.getUser().getId(), String.class);
->>>>>>> 6621e7c (commitche4)
-=======
->>>>>>> 658f45d (commitche6)
         event.reply(output.getBody()).queue();
     }
 
