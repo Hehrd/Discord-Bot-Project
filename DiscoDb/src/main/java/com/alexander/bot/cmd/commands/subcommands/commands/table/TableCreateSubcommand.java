@@ -32,7 +32,10 @@ public class TableCreateSubcommand extends BotSubcommand {
                 containerName, event.getOption("database").getAsString(), sql
         );
         ResponseEntity<String> output = restTemplate.postForEntity("http://localhost:15000/ssh/execcmd", cmd, String.class);
+<<<<<<< HEAD
         restTemplate.postForEntity("http://localhost:6969/containers", event.getUser().getId(), String.class);
+=======
+>>>>>>> 6621e7c (commitche4)
         event.reply(output.getBody()).queue();
     }
 
