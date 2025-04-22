@@ -6,14 +6,21 @@ import { useSession } from 'next-auth/react';
 
 
 const parsePlainTextTable = (text: string) => {
-    const lines = text.trim().split('\n');
-    if (lines.length < 2) return [];
-    const headers = lines[0].split('|').map((h) => h.trim());
-    return lines.slice(2).map((line) => {
+    const lines = text
+        .trim()
+        .split('\n')
+        .filter((line) => !/^\(\d+ row/.test(line));
+
+    if (lines.length < 3) return [];
+
+    const headers = lines[1].split('|').map((h) => h.trim());
+
+    return lines.slice(3).map((line) => {
         const cols = line.split('|').map((c) => c.trim());
-        return Object.fromEntries(headers.map((h, i) => [h, cols[i]]));
+        return Object.fromEntries(headers.map((h, i) => [h, cols[i] ?? '']));
     });
 };
+
 
 const fetchTable = (
     apiBase: string,
