@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 @Table(name = "user_containers_table")
 @Data
-public class UserContainerEntity extends BaseEntity {
+public class    UserContainerEntity extends BaseEntity {
     @Column
     private String name;
 
