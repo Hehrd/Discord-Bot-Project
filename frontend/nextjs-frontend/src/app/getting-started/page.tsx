@@ -3,7 +3,7 @@ import React from 'react';
 
 export default function GettingStartedPage() {
     return (
-        <main className="max-w-3xl mx-auto px-6 py-10">
+        <main className="min-h-[calc(100vh-6rem)] max-w-3xl mx-auto px-6 py-10">
             <h1 className="text-4xl font-bold mb-6">Getting Started</h1>
 
             <p className="mb-4 text-gray-700">

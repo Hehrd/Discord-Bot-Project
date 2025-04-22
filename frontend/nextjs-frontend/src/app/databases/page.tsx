@@ -70,9 +70,9 @@ export default function DatabasesPage() {
     };
 
     return (
-        <main className="min-h-screen bg-white px-6 py-10 flex flex-col items-center">
+        <main className="min-h-[calc(100vh-6rem)] bg-white px-6 py-10 flex flex-col items-center">
             <h1 className="text-3xl font-bold mb-6 text-center">
-                Databases in "{containerName}"
+                Databases in &#34;{containerName}&#34;
             </h1>
 
             <div className="mb-6 text-center">
