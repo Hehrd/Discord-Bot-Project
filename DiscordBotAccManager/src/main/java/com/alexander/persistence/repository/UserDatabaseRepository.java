@@ -6,4 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface UserDatabaseRepository extends MyRepository<UserDatabaseEntity>{
     Page<UserDatabaseEntity> findAllByUser_DiscordId(String discordId, Pageable pageable);
+    UserDatabaseEntity findByUser_DiscordIdAndName(String discordId, String name);
 }

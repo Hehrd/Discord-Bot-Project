@@ -1,6 +1,7 @@
 package com.alexander.bot.cmd.commands.subcommands.commands.container;
 
 import com.alexander.bot.cmd.commands.subcommands.commands.BotSubcommand;
+import com.alexander.bot.dto.request.CreateContainerRequestDTO;
 import com.alexander.bot.tools.SelectInterpreter;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -28,7 +29,10 @@ public class ContainerCreateSubcommand extends BotSubcommand {
 
         String cmd = String.format("/usr/local/bin/docker create --name %s -e POSTGRES_PASSWORD=pass -p 5432:5432 postgres", name);
         ResponseEntity<String> output = restTemplate.postForEntity("http://localhost:15000/ssh/execcmd", cmd, String.class);
-//        restTemplate.postForEntity("http://localhost:6969/containers", event.getUser().getId(), String.class);
+        CreateContainerRequestDTO createContainerRequestDTO = new CreateContainerRequestDTO();
+        createContainerRequestDTO.setName(name.toString());
+        createContainerRequestDTO.setDiscordId(event.getUser().getId());
+        restTemplate.postForEntity("http://localhost:6969/containers", createContainerRequestDTO, String.class);
         event.reply(output.getBody()).queue();
     }
 

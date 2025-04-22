@@ -1,11 +1,14 @@
 package com.alexander.controller.controllers.data;
 
+import com.alexander.controller.model.request.CreateDatabaseRequestDTO;
+import com.alexander.controller.model.request.CreateTableRequestDTO;
 import com.alexander.controller.model.response.PagedResponse;
 import com.alexander.controller.model.response.TableResponseDTO;
 import com.alexander.service.data.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -35,5 +38,13 @@ public class TableController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(rows);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> createContainer(@RequestBody CreateTableRequestDTO createTableRequestDTO) {
+        tableService.addTable(createTableRequestDTO);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body("Successfully created container!");
     }
 }

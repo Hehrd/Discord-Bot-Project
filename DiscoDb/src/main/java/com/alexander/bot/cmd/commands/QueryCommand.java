@@ -18,7 +18,7 @@ public class QueryCommand extends BotCommand {
 
     @Autowired
     protected QueryCommand(ApplicationContext applicationContext) {
-        super(BotCommandCredentials.FINDBY_CREDENTIALS, applicationContext);
+        super(BotCommandCredentials.QUERY_REDENTIALS, applicationContext);
     }
 
     @Override

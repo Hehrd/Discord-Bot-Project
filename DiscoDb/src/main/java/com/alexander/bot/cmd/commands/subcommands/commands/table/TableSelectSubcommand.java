@@ -39,6 +39,8 @@ public class TableSelectSubcommand extends BotSubcommand {
     @Override
     protected void initOptions() {
         options = new HashMap<>();
+        options.put("container", new OptionData(OptionType.STRING, "container", "The name of the container to select from", true));
+        options.put("database", new OptionData(OptionType.STRING, "database", "The name of the database to select from", true));
         options.put("master_table", new OptionData(OptionType.STRING, "master_table", "The name of the table", true));
         options.put("joins", new OptionData(OptionType.STRING, "joins", "table1:join_column_in_table1:join_column_in_master_table;table2...", true));
         options.put("fields_and_values", new OptionData(OptionType.STRING, "fields_and_values", "field1=\"string_value\";field2=5;field3=true", true));

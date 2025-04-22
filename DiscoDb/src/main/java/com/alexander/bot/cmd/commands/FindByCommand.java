@@ -6,14 +6,10 @@ import com.alexander.bot.validation.ApiKeyValidator;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 //@Component
 public class FindByCommand extends SqlCommand {
@@ -23,7 +19,7 @@ public class FindByCommand extends SqlCommand {
                          SelectInterpreter selectInterpreter) {
         super(restTemplate,
                 selectInterpreter,
-              BotCommandCredentials.FINDBY_CREDENTIALS,
+              BotCommandCredentials.QUERY_REDENTIALS,
               applicationContext);
     }
 

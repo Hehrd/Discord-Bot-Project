@@ -16,7 +16,7 @@ public class SelectInterpreter extends SqlInterpeter{
         sql.append(baseSql);
         appendColumnsToSelect(options.get("columns_to_select"), sql);
         appendTable(options.get("master_table"), sql);
-        appendJoins(options.get("master_table"), options.get("joins"),  sql);
+//        appendJoins(options.get("master_table"), options.get("joins"),  sql);
         appendWhereClause(options.get("fields_and_values"), sql);
         appendLimit(options.get("limit"), sql);
         sql.append(";");
@@ -79,7 +79,7 @@ public class SelectInterpreter extends SqlInterpeter{
 
     private void appendLimit(String limit, StringBuffer sql) {
         sql.append(" ");
-        sql.append(String.format("LIMIT=%s", limit));
+        sql.append(String.format("LIMIT %s", limit));
     }
 
     protected void initDefaultOptions() {

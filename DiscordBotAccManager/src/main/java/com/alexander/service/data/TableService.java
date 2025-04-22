@@ -1,10 +1,17 @@
 package com.alexander.service.data;
 
+import com.alexander.controller.model.request.CreateDatabaseRequestDTO;
+import com.alexander.controller.model.request.CreateTableRequestDTO;
 import com.alexander.controller.model.response.DiscordAccResponse;
 import com.alexander.controller.model.response.PagedResponse;
 import com.alexander.controller.model.response.TableResponseDTO;
 import com.alexander.persistence.model.EntityMapper;
+import com.alexander.persistence.model.entities.UserAccEntity;
+import com.alexander.persistence.model.entities.UserContainerEntity;
+import com.alexander.persistence.model.entities.UserDatabaseEntity;
 import com.alexander.persistence.model.entities.UserTableEntity;
+import com.alexander.persistence.repository.UserContainerRepository;
+import com.alexander.persistence.repository.UserDatabaseRepository;
 import com.alexander.persistence.repository.UserRepository;
 import com.alexander.persistence.repository.UserTableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +25,10 @@ import org.springframework.web.client.RestTemplate;
 public class TableService extends UserDataService {
     @Autowired
     private UserTableRepository userTableRepository;
+    @Autowired
+    private UserContainerRepository userContainerRepository;
+    @Autowired
+    private UserDatabaseRepository userDatabaseRepository;
 
     @Autowired
     public TableService(UserRepository repository, RestTemplate restTemplate) {
@@ -52,5 +63,14 @@ public class TableService extends UserDataService {
         ResponseEntity<String> output = restTemplate.postForEntity("http://localhost:15000/ssh/execcmd", cmd, String.class);
         System.out.println(output.getBody());
         return output.getBody();
+    }
+
+    public void addTable(CreateTableRequestDTO createTableRequestDTO) {
+        UserAccEntity userAccEntity = userRepository.findByDiscordId(createTableRequestDTO.getDiscordId()).orElse(null);
+        UserTableEntity userTableEntity = new UserTableEntity();
+        userTableEntity.setName(createTableRequestDTO.getName());
+        userTableEntity.setUser(userAccEntity);
+        userTableEntity.setDatabase(userDatabaseRepository.findByUser_DiscordIdAndName(createTableRequestDTO.getDiscordId(), createTableRequestDTO.getDatabase()));
+        userTableRepository.save(userTableEntity);
     }
 }

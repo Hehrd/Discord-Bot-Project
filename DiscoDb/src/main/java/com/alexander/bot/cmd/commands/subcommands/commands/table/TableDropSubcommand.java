@@ -1,8 +1,8 @@
-package com.alexander.bot.cmd.commands.subcommands.commands.database;
+package com.alexander.bot.cmd.commands.subcommands.commands.table;
 
 import com.alexander.bot.cmd.commands.subcommands.commands.BotSubcommand;
-import com.alexander.bot.tools.CreateDatabaseInterpreter;
-import com.alexander.bot.tools.SqlInterpeter;
+import com.alexander.bot.tools.CreateTableInterpreter;
+import com.alexander.bot.tools.DropTableInterpreter;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -14,10 +14,11 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 
 @Component
-public class DatabaseCreateSubcommand extends BotSubcommand {
+public class TableDropSubcommand extends BotSubcommand {
+
     @Autowired
-    public DatabaseCreateSubcommand(RestTemplate restTemplate, CreateDatabaseInterpreter interpreter) {
-        super("create", "Create a database", restTemplate, interpreter);
+    public TableDropSubcommand(RestTemplate restTemplate, DropTableInterpreter interpreter) {
+        super("drop", "Drops a table", restTemplate, interpreter);
     }
 
     @Override
@@ -32,14 +33,14 @@ public class DatabaseCreateSubcommand extends BotSubcommand {
                 containerName, sql
         );
         ResponseEntity<String> output = restTemplate.postForEntity("http://localhost:15000/ssh/execcmd", cmd, String.class);
-        restTemplate.postForEntity("http://localhost:6969/databases", event.getUser().getId(), String.class);
         event.reply(output.getBody()).queue();
     }
 
     @Override
     protected void initOptions() {
         options = new HashMap<>();
-        options.put("container", new OptionData(OptionType.STRING, "container", "A container for the database", true));
-        options.put("name", new OptionData(OptionType.STRING, "name", "The name of the database", true));
+        options.put("name", new OptionData(OptionType.STRING, "name", "The name of the table", true));
+        options.put("database", new OptionData(OptionType.STRING, "database", "The name of the database", true));
+        options.put("container", new OptionData(OptionType.STRING, "container", "The name of the container", true));
     }
 }
