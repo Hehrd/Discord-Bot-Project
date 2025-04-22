@@ -16,8 +16,9 @@ public class CreateTableInterpreter extends SqlInterpeter {
     public String createSqlString(Map<String, String> options) {
         StringBuffer sql = new StringBuffer();
         sql.append(baseSql);
-        appendTable(sql, options.get("table"));
-        appendColumns(sql, options.get("columns"));
+        appendTable(sql, options.get("name"));
+        sql.append(" ()");
+//        appendColumns(sql, options.get("columns"));
         sql.append(";");
         return sql.toString();
     }

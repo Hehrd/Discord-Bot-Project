@@ -47,9 +47,10 @@ public class TableService extends UserDataService {
                         "/usr/local/bin/docker exec %1$s " +
                         "psql -h localhost -p 5432 -U postgres " +
                         "-d %2$s -c \"%3$s\"",
-                containerName, database, sql
+                "test_aleks", "user_acc_db", sql
         );
         ResponseEntity<String> output = restTemplate.postForEntity("http://localhost:15000/ssh/execcmd", cmd, String.class);
+        System.out.println(output.getBody());
         return output.getBody();
     }
 }

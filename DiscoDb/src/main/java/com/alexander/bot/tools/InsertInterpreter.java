@@ -15,6 +15,8 @@ public class InsertInterpreter extends SqlInterpeter {
     @Override
     public String createSqlString(Map<String, String> options) {
         StringBuffer sql = new StringBuffer();
+        sql.append(baseSql);
+        sql.append(" ");
         appendTable(sql, options.get("table"));
         appendColumns(sql, options.get("columns"));
         appendValues(sql, options.get("values"));

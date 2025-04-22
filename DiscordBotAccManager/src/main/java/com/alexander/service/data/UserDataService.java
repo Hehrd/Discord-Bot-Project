@@ -24,11 +24,14 @@ public class UserDataService {
 
 
     protected DiscordAccResponse getDiscordResponse(String accessToken) {
+        if (accessToken.startsWith("Bearer ")) {
+            accessToken = accessToken.substring(7); // Remove "Bearer " (length 7)
+        }
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(accessToken);
         headers.set("Accept", "application/json");
         HttpEntity<String> entity = new HttpEntity<>(headers);
-        ResponseEntity<DiscordAccResponse> responseEntity = restTemplate.exchange(DISCORD_OAUTH_URL, HttpMethod.POST, entity, DiscordAccResponse.class);
+        ResponseEntity<DiscordAccResponse> responseEntity = restTemplate.exchange(DISCORD_OAUTH_URL, HttpMethod.GET, entity, DiscordAccResponse.class);
         return responseEntity.getBody();
     }
 }

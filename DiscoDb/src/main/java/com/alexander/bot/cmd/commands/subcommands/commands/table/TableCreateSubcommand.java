@@ -22,13 +22,16 @@ public class TableCreateSubcommand extends BotSubcommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        List<String> commands = new ArrayList<>();
-        commands.add(String.format("docker exec -it %s-%s sh",
-                event.getOption("container").getAsString(),
-                event.getUser().getId()));
-        commands.add(String.format("\\c %s", event.getOption("database").getAsString()));
-        commands.add(sqlInterpeter.createSqlString(getOptionsMap(event)));
-        ResponseEntity<String> output = restTemplate.postForEntity("http://localhost:15000/execcmd", commands, String.class);
+        String containerName = String.format("%s-%s", event.getOption("container").getAsString(), event.getUser().getId());
+        String sql = sqlInterpeter.createSqlString(getOptionsMap(event));
+        String cmd = String.format(
+                "/usr/local/bin/docker start %1$s && " +
+                        "/usr/local/bin/docker exec %1$s " +
+                        "psql -h localhost -p 5432 -U postgres -d %2$s " +
+                        "-c \"%3$s\"",
+                containerName, event.getOption("database").getAsString(), sql
+        );
+        ResponseEntity<String> output = restTemplate.postForEntity("http://localhost:15000/ssh/execcmd", cmd, String.class);
         event.reply(output.getBody()).queue();
     }
 

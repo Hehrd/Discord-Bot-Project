@@ -14,11 +14,12 @@ public class UserAccEntity extends BaseEntity {
 //    private String passwordHash;
 
     @OneToOne
-    @JoinColumn(nullable = true, unique = true, name = "apiKey", referencedColumnName = "id")
+    @JoinColumn(nullable = true, unique = true, name = "apiKeyId", referencedColumnName = "id")
     private ApiKeyEntity apiKey;
 
-    @Column(nullable = true, unique = true, name = "securityToken")
-    private String securityToken;
+    @OneToOne
+    @JoinColumn(nullable = true, unique = true, name = "securityTokenId", referencedColumnName = "id")
+    private SecurityTokenEntity securityToken;
 
 
 }

@@ -21,6 +21,7 @@ public class SSHCommandController {
 
     @RequestMapping(value = "/execcmd", method = RequestMethod.POST, consumes = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> executeCommand(@RequestBody String command) throws JSchException, IOException, InterruptedException {
+        System.out.println(command);
         String output = sshService.executeCmd(command);
         System.out.println(output);
         return ResponseEntity

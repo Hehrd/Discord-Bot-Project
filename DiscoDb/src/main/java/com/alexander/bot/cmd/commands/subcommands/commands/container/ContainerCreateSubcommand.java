@@ -28,7 +28,7 @@ public class ContainerCreateSubcommand extends BotSubcommand {
 
         String cmd = String.format("/usr/local/bin/docker create --name %s -e POSTGRES_PASSWORD=pass -p 5432:5432 postgres", name);
         ResponseEntity<String> output = restTemplate.postForEntity("http://localhost:15000/ssh/execcmd", cmd, String.class);
-        restTemplate.postForEntity("http://localhost:6969/containers", event.getUser().getId(), String.class);
+//        restTemplate.postForEntity("http://localhost:6969/containers", event.getUser().getId(), String.class);
         event.reply(output.getBody()).queue();
     }
 
