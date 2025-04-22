@@ -22,7 +22,7 @@ export async function middleware(request: NextRequest) {
     }
 
     const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
-    const protectedPaths = ['/test', '/', '/getting-started', '/containers', '/databases', '/tables'];
+    const protectedPaths = ['/test', '/', '/getting-started', '/containers', '/databases', '/tables', '/features', '/about'];
 
     if (request.nextUrl.pathname === '/') {
         const response = NextResponse.redirect(new URL('/containers', request.url));
@@ -39,5 +39,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/login', '/test', '/', '/getting-started', '/logout', '/containers', '/databases', '/tables'],
+    matcher: ['/login', '/test', '/', '/getting-started', '/logout', '/containers', '/databases', '/tables', '/features', '/about'],
 };
