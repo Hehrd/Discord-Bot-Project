@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import org.springframework.web.bind.annotation.*;
 =======
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 >>>>>>> 6621e7c (commitche4)
+=======
+import org.springframework.web.bind.annotation.*;
+>>>>>>> 658f45d (commitche6)
 
 @Controller
 @CrossOrigin(origins = "*")
