@@ -17,6 +17,7 @@ const NavBar: React.FC = () => {
         { label: 'Getting Started', href: '/getting-started' },
         { label: 'Features', href: '/features' },
         { label: 'About Us', href: '/about' },
+        { label: 'Payment', href: '/payment' },
         { label: 'Logout', href: '/logout', isLogout: true },
 
 
