@@ -39,11 +39,6 @@ public class BeanConfig {
     }
 
     @Bean
-    public SelectInterpreter sqlInterpreter() {
-        return new SelectInterpreter();
-    }
-
-    @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }

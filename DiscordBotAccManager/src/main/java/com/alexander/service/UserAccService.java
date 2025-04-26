@@ -1,6 +1,6 @@
 package com.alexander.service;
 
-import com.alexander.controller.model.request.AddKeyRequestDTO;
+import com.alexander.controller.model.request.ActivateKeyRequestDTO;
 import com.alexander.controller.model.response.DiscordAccResponse;
 import com.alexander.persistence.model.entities.UserAccEntity;
 import com.alexander.persistence.repository.ApiKeyRepository;
@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class UserAccService {
     private final String HASH_ALGORITHM = "SHA-256";
+    private final String DISCORD_OAUTH_URL = "https://discord.com/api/users/@me";
 
     @Autowired
     private RestTemplate restTemplate;
@@ -39,24 +40,18 @@ public class UserAccService {
 //    }
 
     public void login(String accessToken) throws Exception {
-        String url = "https://discord.com/api/users/@me";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(accessToken);
-        headers.set("Accept", "application/json");
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-        ResponseEntity<DiscordAccResponse> responseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, DiscordAccResponse.class);
-        UserAccEntity userAccEntity = new UserAccEntity();
-        userAccEntity.setDiscordId(responseEntity.getBody().getId());
-        if (!userRepository.existsByDiscordId(responseEntity.getBody().getId())) {
+        DiscordAccResponse discordAcc = getDiscordResponse(accessToken);
+        if (!userRepository.existsByDiscordId(discordAcc.getId())) {
+            UserAccEntity userAccEntity = new UserAccEntity();
+            userAccEntity.setDiscordId(discordAcc.getId());
             userRepository.save(userAccEntity);
         }
-
     }
 
-    public void addKey(AddKeyRequestDTO addKeyRequestDTO) throws Exception {
-        UserAccEntity userAccEntity = userRepository.findByDiscordId(addKeyRequestDTO.getDiscordId()).orElse(null);
-        userAccEntity.setApiKey(apiKeyRepository.findByApiKey(addKeyRequestDTO.getApiKey()).orElse(null));
+    public void activateKey(ActivateKeyRequestDTO activateKeyRequestDTO) throws Exception {
+        DiscordAccResponse discordAcc = getDiscordResponse(activateKeyRequestDTO.getAccessToken());
+        UserAccEntity userAccEntity = userRepository.findByDiscordId(discordAcc.getId()).orElse(null);
+        userAccEntity.setApiKey(apiKeyRepository.findByApiKey(activateKeyRequestDTO.getApiKey()).orElse(null));
         userRepository.save(userAccEntity);
     }
 
@@ -66,6 +61,15 @@ public class UserAccService {
             return false;
         }
         return true;
+    }
+
+    private DiscordAccResponse getDiscordResponse(String accessToken) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(accessToken);
+        headers.set("Accept", "application/json");
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        ResponseEntity<DiscordAccResponse> responseEntity = restTemplate.exchange(DISCORD_OAUTH_URL, HttpMethod.GET, entity, DiscordAccResponse.class);
+        return responseEntity.getBody();
     }
 
 

@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 
 
 const parsePlainTextTable = (text: string) => {
+<<<<<<< HEAD
     const lines = text
         .trim()
         .split('\n')
@@ -19,6 +20,22 @@ const parsePlainTextTable = (text: string) => {
         const cols = line.split('|').map((c) => c.trim());
         return Object.fromEntries(headers.map((h, i) => [h, cols[i] ?? '']));
     });
+=======
+  const lines = text
+    .trim()
+    .split('\n')
+    .filter((line) => !/^\(\d+ row/.test(line)); // Remove the "(n rows)" line
+
+  if (lines.length < 3) return [];
+
+  // Skip the first line (table name), and use the second line as headers
+  const headers = lines[1].split('|').map((h) => h.trim());
+
+  return lines.slice(3).map((line) => {
+    const cols = line.split('|').map((c) => c.trim());
+    return Object.fromEntries(headers.map((h, i) => [h, cols[i] ?? '']));
+  });
+>>>>>>> 658f45d (commitche6)
 };
 
 

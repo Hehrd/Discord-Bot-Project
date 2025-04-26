@@ -16,7 +16,10 @@ public class CreateTableInterpreter extends SqlInterpeter {
     public String createSqlString(Map<String, String> options) {
         StringBuffer sql = new StringBuffer();
         sql.append(baseSql);
-
+        appendTable(sql, options.get("name"));
+        sql.append(" ()");
+//        appendColumns(sql, options.get("columns"));
+        sql.append(";");
         return sql.toString();
     }
 
@@ -33,14 +36,15 @@ public class CreateTableInterpreter extends SqlInterpeter {
         sql.append(table);
     }
 
-    private void appendColumns(StringBuffer sql, List<String> columns) {
+    private void appendColumns(StringBuffer sql, String columns) {
+        List<String> columnsList = Arrays.asList(columns.split(";"));
         sql.append(" ");
         sql.append("(");
-        for (int i = 0; i < columns.size(); i++) {
+        for (int i = 0; i < columnsList.size(); i++) {
             if (i > 0) {
                 sql.append(", ");
             }
-            List<String> columnProperties = Arrays.asList(columns.get(i).split(":"));
+            List<String> columnProperties = Arrays.asList(columnsList.get(i).split(":"));
 
         }
     }

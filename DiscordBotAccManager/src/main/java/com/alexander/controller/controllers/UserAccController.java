@@ -1,6 +1,6 @@
-package com.alexander.controller;
+package com.alexander.controller.controllers;
 
-import com.alexander.controller.model.request.AddKeyRequestDTO;
+import com.alexander.controller.model.request.ActivateKeyRequestDTO;
 import com.alexander.service.UserAccService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,7 @@ public class UserAccController {
 //    }
 //
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<String> login(@RequestBody String accessToken) throws Exception {
+    public ResponseEntity<String> login(@RequestHeader("Authorization") String accessToken) throws Exception {
         userAccService.login(accessToken);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -39,12 +39,15 @@ public class UserAccController {
                 .body("Successfully generated key!");
     }
 
-    @RequestMapping(value = "/apikeys/addkey", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> addKey(@RequestBody AddKeyRequestDTO addKeyRequestDTO) throws Exception {
-        userAccService.addKey(addKeyRequestDTO);
+    @RequestMapping(value = "/apikeys/activate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> activateKey(@RequestHeader("Authorization") String accessToken, @RequestBody String apiKey) throws Exception {
+        ActivateKeyRequestDTO activateKeyRequestDTO = new ActivateKeyRequestDTO();
+        activateKeyRequestDTO.setApiKey(apiKey);
+        activateKeyRequestDTO.setAccessToken(accessToken);
+        userAccService.activateKey(activateKeyRequestDTO);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body("Successfully added key!");
+                .body("Successfully activated key!");
     }
 
     @RequestMapping(value = "/hasKey/{discordId}", method = RequestMethod.GET)

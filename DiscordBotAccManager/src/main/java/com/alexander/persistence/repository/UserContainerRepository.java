@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserContainerRepository extends MyRepository<UserContainerEntity>{
     Page<UserContainerEntity> findAllByUser_DiscordId(String discordId, Pageable pageable);
+    UserContainerEntity findByUser_DiscordIdAndName(String discordId, String name);
 }
