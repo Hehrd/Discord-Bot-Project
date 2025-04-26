@@ -7,5 +7,4 @@ public class CreateTableRequestDTO {
     String name;
     String container;
     String database;
-    String discordId;
 }

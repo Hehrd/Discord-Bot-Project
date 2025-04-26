@@ -1,8 +1,8 @@
 package com.alexander.bot.cmd.commands.subcommands.commands.procedure;
 
 import com.alexander.bot.cmd.commands.subcommands.commands.BotSubcommand;
-import com.alexander.bot.tools.CallProcedureInterpreter;
-import com.alexander.bot.tools.CreateProcedureInterpreter;
+import com.alexander.bot.service.JWTService;
+import com.alexander.bot.tools.interpreter.CallProcedureInterpreter;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -17,8 +17,8 @@ import java.util.HashMap;
 public class ProcedureCallSubcommand extends BotSubcommand {
 
     @Autowired
-    public ProcedureCallSubcommand(RestTemplate restTemplate, CallProcedureInterpreter interpreter) {
-        super("call", "call a procedure", restTemplate, interpreter);
+    public ProcedureCallSubcommand(RestTemplate restTemplate, CallProcedureInterpreter interpreter, JWTService jwtService) {
+        super("call", "call a procedure", restTemplate, interpreter, jwtService);
     }
 
     @Override

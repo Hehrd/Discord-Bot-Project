@@ -4,7 +4,7 @@ import com.alexander.bot.cmd.commands.subcommands.groups.BotSubcommandGroup;
 import com.alexander.bot.cmd.commands.subcommands.groups.TableColumnSubcommandGroup;
 import com.alexander.bot.cmd.commands.subcommands.groups.TableOtherSubcommandGroup;
 import com.alexander.bot.error.exceptions.BotCommandException;
-import com.alexander.bot.tools.CreateTableInterpreter;
+import com.alexander.bot.tools.interpreter.CreateTableInterpreter;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -13,7 +13,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 @Component
 public class TableCommand extends SqlCommand{

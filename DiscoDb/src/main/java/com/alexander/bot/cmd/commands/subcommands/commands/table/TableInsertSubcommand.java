@@ -1,8 +1,8 @@
 package com.alexander.bot.cmd.commands.subcommands.commands.table;
 
 import com.alexander.bot.cmd.commands.subcommands.commands.BotSubcommand;
-import com.alexander.bot.tools.InsertInterpreter;
-import com.alexander.bot.tools.SqlInterpeter;
+import com.alexander.bot.service.JWTService;
+import com.alexander.bot.tools.interpreter.InsertInterpreter;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -16,8 +16,8 @@ import java.util.HashMap;
 @Component
 public class TableInsertSubcommand extends BotSubcommand {
     @Autowired
-    public TableInsertSubcommand(RestTemplate restTemplate, InsertInterpreter interpreter) {
-        super("insert","Insert a row", restTemplate, interpreter);
+    public TableInsertSubcommand(RestTemplate restTemplate, InsertInterpreter interpreter, JWTService jwtService) {
+        super("insert","Insert a row", restTemplate, interpreter, jwtService);
     }
 
     @Override

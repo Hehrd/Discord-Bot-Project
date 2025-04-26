@@ -1,7 +1,7 @@
 package com.alexander.bot.cmd.commands;
 
 import com.alexander.bot.error.exceptions.BotCommandException;
-import com.alexander.bot.tools.SelectInterpreter;
+import com.alexander.bot.tools.interpreter.SelectInterpreter;
 import com.alexander.bot.validation.ApiKeyValidator;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;

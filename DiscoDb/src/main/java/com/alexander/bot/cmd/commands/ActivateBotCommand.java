@@ -1,6 +1,6 @@
 package com.alexander.bot.cmd.commands;
 
-import com.alexander.bot.dto.AddKeyRequestDTO;
+import com.alexander.bot.model.AddKeyRequestDTO;
 import com.alexander.bot.error.exceptions.BotCommandException;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -12,8 +12,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
 
 @Component
 public class ActivateBotCommand extends RestCommand {

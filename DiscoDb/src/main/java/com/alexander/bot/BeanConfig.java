@@ -2,7 +2,7 @@ package com.alexander.bot;
 
 import com.alexander.bot.cmd.CommandManager;
 import com.alexander.bot.cmd.commands.BotCommand;
-import com.alexander.bot.tools.SelectInterpreter;
+import com.auth0.jwt.JWT;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -41,5 +41,10 @@ public class BeanConfig {
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+    @Bean
+    public JWT jwt() {
+        return new JWT();
     }
 }

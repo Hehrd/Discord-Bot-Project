@@ -1,7 +1,8 @@
 package com.alexander.bot.cmd.commands.subcommands.commands.table;
 
 import com.alexander.bot.cmd.commands.subcommands.commands.BotSubcommand;
-import com.alexander.bot.tools.AddColumnInterpreter;
+import com.alexander.bot.service.JWTService;
+import com.alexander.bot.tools.interpreter.AddColumnInterpreter;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.Command;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -17,8 +18,8 @@ import java.util.HashMap;
 public class TableColumnAddSubcommand extends BotSubcommand {
 
     @Autowired
-    public TableColumnAddSubcommand(RestTemplate restTemplate, AddColumnInterpreter interpreter) {
-        super("add", "Add a column", restTemplate, interpreter);
+    public TableColumnAddSubcommand(RestTemplate restTemplate, AddColumnInterpreter interpreter, JWTService jwtService) {
+        super("add", "Add a column", restTemplate, interpreter, jwtService);
     }
 
     @Override

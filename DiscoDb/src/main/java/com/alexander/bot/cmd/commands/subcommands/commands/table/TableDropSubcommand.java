@@ -1,8 +1,8 @@
 package com.alexander.bot.cmd.commands.subcommands.commands.table;
 
 import com.alexander.bot.cmd.commands.subcommands.commands.BotSubcommand;
-import com.alexander.bot.tools.CreateTableInterpreter;
-import com.alexander.bot.tools.DropTableInterpreter;
+import com.alexander.bot.service.JWTService;
+import com.alexander.bot.tools.interpreter.DropTableInterpreter;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -17,8 +17,8 @@ import java.util.HashMap;
 public class TableDropSubcommand extends BotSubcommand {
 
     @Autowired
-    public TableDropSubcommand(RestTemplate restTemplate, DropTableInterpreter interpreter) {
-        super("drop", "Drops a table", restTemplate, interpreter);
+    public TableDropSubcommand(RestTemplate restTemplate, DropTableInterpreter interpreter, JWTService jwtService) {
+        super("drop", "Drops a table", restTemplate, interpreter, jwtService);
     }
 
     @Override

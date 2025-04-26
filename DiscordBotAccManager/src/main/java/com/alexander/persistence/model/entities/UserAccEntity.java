@@ -17,15 +17,4 @@ public class UserAccEntity extends BaseEntity {
     @JoinColumn(nullable = true, unique = true, name = "apiKey", referencedColumnName = "id")
     private ApiKeyEntity apiKey;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    @OneToOne
-    @JoinColumn(nullable = true, unique = true, name = "securityTokenId", referencedColumnName = "id")
-    private SecurityTokenEntity securityToken;
->>>>>>> 6621e7c (commitche4)
-=======
->>>>>>> 58c718d (commitche6)
-
-
 }

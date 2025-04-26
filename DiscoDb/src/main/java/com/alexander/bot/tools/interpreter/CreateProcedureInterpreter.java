@@ -1,7 +1,5 @@
-package com.alexander.bot.tools;
+package com.alexander.bot.tools.interpreter;
 
-import com.alexander.bot.cmd.commands.subcommands.commands.BotSubcommand;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;

@@ -1,6 +1,6 @@
 package com.alexander.bot.cmd.commands;
 
-import com.alexander.bot.tools.SqlInterpeter;
+import com.alexander.bot.tools.interpreter.SqlInterpeter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.client.RestTemplate;
 

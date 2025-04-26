@@ -31,9 +31,9 @@ public class ContainerController {
                 .body(containerPage);
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> createContainer(@RequestBody CreateContainerRequestDTO createContainerRequestDTO) {
-        containerService.addContainer(createContainerRequestDTO);
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> addContainer(@RequestBody String containerName, @RequestHeader("Authorization") String jwt) {
+        containerService.addContainer(containerName, jwt);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body("Successfully created container!");

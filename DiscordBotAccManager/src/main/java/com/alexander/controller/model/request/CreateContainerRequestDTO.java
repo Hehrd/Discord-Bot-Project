@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class CreateContainerRequestDTO {
+    String jwt;
     String name;
-    String discordId;
 }

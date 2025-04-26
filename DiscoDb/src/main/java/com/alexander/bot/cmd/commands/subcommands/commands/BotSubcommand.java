@@ -1,6 +1,7 @@
 package com.alexander.bot.cmd.commands.subcommands.commands;
 
-import com.alexander.bot.tools.SqlInterpeter;
+import com.alexander.bot.service.JWTService;
+import com.alexander.bot.tools.interpreter.SqlInterpeter;
 import lombok.Data;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -20,12 +21,18 @@ public abstract class BotSubcommand {
     protected Map<String, OptionData> options;
     protected RestTemplate restTemplate;
     protected SqlInterpeter sqlInterpeter;
+    protected JWTService jwtService;
 
-    public BotSubcommand(String name, String description, RestTemplate restTemplate, SqlInterpeter sqlInterpeter) {
+    public BotSubcommand(String name,
+                         String description,
+                         RestTemplate restTemplate,
+                         SqlInterpeter sqlInterpeter,
+                         JWTService jwtService) {
         this.name = name;
         this.description = description;
         this.restTemplate = restTemplate;
         this.sqlInterpeter = sqlInterpeter;
+        this.jwtService = jwtService;
         initOptions();
     }
 
@@ -61,6 +68,7 @@ public abstract class BotSubcommand {
         }
         return optionsMap;
     }
+
 
 
 }

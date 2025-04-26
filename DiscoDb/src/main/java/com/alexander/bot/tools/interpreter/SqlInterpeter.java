@@ -1,4 +1,4 @@
-package com.alexander.bot.tools;
+package com.alexander.bot.tools.interpreter;
 
 import java.util.HashMap;
 import java.util.Map;

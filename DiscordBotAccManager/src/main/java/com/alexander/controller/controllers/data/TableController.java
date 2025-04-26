@@ -40,9 +40,9 @@ public class TableController {
                 .body(rows);
     }
 
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> createContainer(@RequestBody CreateTableRequestDTO createTableRequestDTO) {
-        tableService.addTable(createTableRequestDTO);
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> addTable(@RequestBody CreateTableRequestDTO createTableRequestDTO, @RequestHeader("Authorization") String jwt) {
+        tableService.addTable(createTableRequestDTO, jwt);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body("Successfully created container!");

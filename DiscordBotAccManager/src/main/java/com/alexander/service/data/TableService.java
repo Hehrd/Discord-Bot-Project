@@ -14,6 +14,7 @@ import com.alexander.persistence.repository.UserContainerRepository;
 import com.alexander.persistence.repository.UserDatabaseRepository;
 import com.alexander.persistence.repository.UserRepository;
 import com.alexander.persistence.repository.UserTableRepository;
+import com.alexander.validation.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,8 @@ public class TableService extends UserDataService {
     private UserContainerRepository userContainerRepository;
     @Autowired
     private UserDatabaseRepository userDatabaseRepository;
+    @Autowired
+    private JWTService jwtService;
 
     @Autowired
     public TableService(UserRepository repository, RestTemplate restTemplate) {
@@ -65,12 +68,14 @@ public class TableService extends UserDataService {
         return output.getBody();
     }
 
-    public void addTable(CreateTableRequestDTO createTableRequestDTO) {
-        UserAccEntity userAccEntity = userRepository.findByDiscordId(createTableRequestDTO.getDiscordId()).orElse(null);
+    public void addTable(CreateTableRequestDTO createTableRequestDTO, String jwt) {
+        String discordId = jwtService.getDiscordId(jwt);
+        UserAccEntity userAccEntity = userRepository.findByDiscordId(discordId).orElse(null);
         UserTableEntity userTableEntity = new UserTableEntity();
         userTableEntity.setName(createTableRequestDTO.getName());
         userTableEntity.setUser(userAccEntity);
-        userTableEntity.setDatabase(userDatabaseRepository.findByUser_DiscordIdAndName(createTableRequestDTO.getDiscordId(), createTableRequestDTO.getDatabase()));
+        userTableEntity.setDatabase(userDatabaseRepository.findByUser_DiscordIdAndName(discordId, createTableRequestDTO.getDatabase()));
+        userTableEntity.setContainer(userContainerRepository.findByUser_DiscordIdAndName(discordId, createTableRequestDTO.getContainer()));
         userTableRepository.save(userTableEntity);
     }
 }

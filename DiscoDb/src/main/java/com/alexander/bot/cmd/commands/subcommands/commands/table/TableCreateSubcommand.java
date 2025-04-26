@@ -1,12 +1,14 @@
 package com.alexander.bot.cmd.commands.subcommands.commands.table;
 
 import com.alexander.bot.cmd.commands.subcommands.commands.BotSubcommand;
-import com.alexander.bot.tools.CreateTableInterpreter;
+import com.alexander.bot.model.request.CreateTableRequestDTO;
+import com.alexander.bot.service.JWTService;
+import com.alexander.bot.tools.interpreter.CreateTableInterpreter;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,13 +18,15 @@ import java.util.*;
 public class TableCreateSubcommand extends BotSubcommand {
 
     @Autowired
-    public TableCreateSubcommand(RestTemplate restTemplate, CreateTableInterpreter interpreter) {
-        super("create", "Creates a table", restTemplate, interpreter);
+    public TableCreateSubcommand(RestTemplate restTemplate, CreateTableInterpreter interpreter, JWTService jwtService) {
+        super("create", "Creates a table", restTemplate, interpreter, jwtService);
     }
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         String containerName = String.format("%s-%s", event.getOption("container").getAsString(), event.getUser().getId());
+        String name = event.getOption("name").getAsString();
+        String database = event.getOption("database").getAsString();
         String sql = sqlInterpeter.createSqlString(getOptionsMap(event));
         String cmd = String.format(
                 "/usr/local/bin/docker start %1$s && " +
@@ -32,7 +36,11 @@ public class TableCreateSubcommand extends BotSubcommand {
                 containerName, event.getOption("database").getAsString(), sql
         );
         ResponseEntity<String> output = restTemplate.postForEntity("http://localhost:15000/ssh/execcmd", cmd, String.class);
-        restTemplate.postForEntity("http://localhost:6969/containers", event.getUser().getId(), String.class);
+        sendRequestToAccManager(event.getUser().getId(), CreateTableRequestDTO.builder()
+                .name(name)
+                .container(containerName)
+                .database(database)
+                .build());
         event.reply(output.getBody()).queue();
     }
 
@@ -42,5 +50,13 @@ public class TableCreateSubcommand extends BotSubcommand {
         options.put("name", new OptionData(OptionType.STRING, "name", "The name of the table", true));
         options.put("database", new OptionData(OptionType.STRING, "database", "The name of the database", true));
         options.put("container", new OptionData(OptionType.STRING, "container", "The name of the container", true));
+    }
+
+    private void sendRequestToAccManager(String id, CreateTableRequestDTO createTableRequestDTO) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(jwtService.createByDiscordId(id));
+        HttpEntity<CreateTableRequestDTO> httpEntity = new HttpEntity<>(createTableRequestDTO, headers);
+        restTemplate.exchange("http://localhost:6969/tables", HttpMethod.POST, httpEntity, String.class);
     }
 }

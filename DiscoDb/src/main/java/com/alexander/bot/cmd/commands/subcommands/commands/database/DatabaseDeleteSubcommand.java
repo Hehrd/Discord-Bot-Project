@@ -1,8 +1,8 @@
 package com.alexander.bot.cmd.commands.subcommands.commands.database;
 
 import com.alexander.bot.cmd.commands.subcommands.commands.BotSubcommand;
-import com.alexander.bot.tools.CreateDatabaseInterpreter;
-import com.alexander.bot.tools.DropDatabaseInterpreter;
+import com.alexander.bot.service.JWTService;
+import com.alexander.bot.tools.interpreter.DropDatabaseInterpreter;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -16,8 +16,8 @@ import java.util.HashMap;
 @Component
 public class DatabaseDeleteSubcommand extends BotSubcommand {
     @Autowired
-    public DatabaseDeleteSubcommand(RestTemplate restTemplate, DropDatabaseInterpreter interpreter) {
-        super("drop", "Drop a database", restTemplate, interpreter);
+    public DatabaseDeleteSubcommand(RestTemplate restTemplate, DropDatabaseInterpreter interpreter, JWTService jwtService) {
+        super("drop", "Drop a database", restTemplate, interpreter, jwtService);
     }
 
     @Override

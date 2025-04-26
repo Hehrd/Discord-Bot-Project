@@ -1,4 +1,4 @@
-package com.alexander.bot.dto;
+package com.alexander.bot.model;
 
 import lombok.Data;
 

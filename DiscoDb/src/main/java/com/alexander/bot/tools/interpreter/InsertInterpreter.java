@@ -1,4 +1,4 @@
-package com.alexander.bot.tools;
+package com.alexander.bot.tools.interpreter;
 
 import org.springframework.stereotype.Component;
 

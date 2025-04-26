@@ -9,7 +9,8 @@ public enum BotCommandCredentials {
     CONTAINER_CREDENTIALS("container", "Creates a docker container"),
     ACTIVATE_BOT("activate_bot", "Activate the services of the bot"),
     DATABASE_CREDENTIALS("database", "Creates a database"),
-    PROCEDURE_CREDENTIALS("procedure", "Creates a procedure"),;
+    PROCEDURE_CREDENTIALS("procedure", "Creates a procedure"),
+    DOWNLOAD_CONTAINER_CREDENTIALS("download_container", "Download a container"),;
 
     private final String name;
     private final String description;

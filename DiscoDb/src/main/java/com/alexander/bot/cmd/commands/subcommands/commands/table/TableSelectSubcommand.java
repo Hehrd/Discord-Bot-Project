@@ -1,7 +1,8 @@
 package com.alexander.bot.cmd.commands.subcommands.commands.table;
 
 import com.alexander.bot.cmd.commands.subcommands.commands.BotSubcommand;
-import com.alexander.bot.tools.SelectInterpreter;
+import com.alexander.bot.service.JWTService;
+import com.alexander.bot.tools.interpreter.SelectInterpreter;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -10,16 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 @Component
 public class TableSelectSubcommand extends BotSubcommand {
 
     @Autowired
-    public TableSelectSubcommand(RestTemplate restTemplate, SelectInterpreter interpreter) {
-        super("select", "Select from a table", restTemplate, interpreter);
+    public TableSelectSubcommand(RestTemplate restTemplate, SelectInterpreter interpreter, JWTService jwtService) {
+        super("select", "Select from a table", restTemplate, interpreter, jwtService);
     }
 
     @Override

@@ -45,17 +45,19 @@ public class SSHClient {
         channel.setErrStream(System.err);
         channel.connect();
         InputStream input = channel.getInputStream();
-        byte[] tmp = new byte[1024];
+        byte[] tmp = new byte[2048];
+        Thread.sleep(10000);
         while (true) {
             while (input.available() > 0) {
-                int i = input.read(tmp, 0, 1024);
+                int i = input.read(tmp, 0, 2048);
                 if (i < 0) break;
                 output.append(new String(tmp, 0, i));
+
             }
             if (channel.isClosed()) {
                 break;
             }
-            Thread.sleep(100);
+            Thread.sleep(300);
         }
 
         channel.disconnect();

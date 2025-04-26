@@ -12,6 +12,7 @@ import com.alexander.persistence.model.entities.UserDatabaseEntity;
 import com.alexander.persistence.repository.UserContainerRepository;
 import com.alexander.persistence.repository.UserDatabaseRepository;
 import com.alexander.persistence.repository.UserRepository;
+import com.alexander.validation.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,8 @@ public class DatabaseService extends UserDataService {
     private UserDatabaseRepository userDatabaseRepository;
     @Autowired
     UserContainerRepository userContainerRepository;
+    @Autowired
+    JWTService jwtService;
 
     @Autowired
     protected DatabaseService(UserRepository userRepository, RestTemplate restTemplate) {
@@ -40,12 +43,13 @@ public class DatabaseService extends UserDataService {
         return pagedResponse;
     }
 
-    public void addDatabase(CreateDatabaseRequestDTO createDatabaseRequestDTO) {
-        UserAccEntity userAccEntity = userRepository.findByDiscordId(createDatabaseRequestDTO.getDiscordId()).orElse(null);
+    public void addDatabase(CreateDatabaseRequestDTO createDatabaseRequestDTO, String jwt) {
+        String discordId = jwtService.getDiscordId(jwt);
+        UserAccEntity userAccEntity = userRepository.findByDiscordId(discordId).orElse(null);
         UserDatabaseEntity userDatabaseEntity = new UserDatabaseEntity();
         userDatabaseEntity.setName(createDatabaseRequestDTO.getName());
         userDatabaseEntity.setUser(userAccEntity);
-        userDatabaseEntity.setContainer(userContainerRepository.findByUser_DiscordIdAndName(createDatabaseRequestDTO.getDiscordId(), createDatabaseRequestDTO.getContainer()));
+        userDatabaseEntity.setContainer(userContainerRepository.findByUser_DiscordIdAndName(discordId, createDatabaseRequestDTO.getContainer()));
         userDatabaseRepository.save(userDatabaseEntity);
     }
 }

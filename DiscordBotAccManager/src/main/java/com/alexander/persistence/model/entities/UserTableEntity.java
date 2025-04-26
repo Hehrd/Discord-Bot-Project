@@ -19,4 +19,8 @@ public class UserTableEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private UserAccEntity user;
+
+    @ManyToOne
+    @JoinColumn(name = "containerId", referencedColumnName = "id")
+    private UserContainerEntity container;
 }

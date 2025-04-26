@@ -1,16 +1,12 @@
 package com.alexander.bot.cmd.commands;
 
-import com.alexander.bot.cmd.commands.subcommands.commands.BotSubcommand;
 import com.alexander.bot.cmd.commands.subcommands.groups.BotSubcommandGroup;
 import com.alexander.bot.cmd.commands.subcommands.groups.DatabaseOtherSubcommandGroup;
-import com.alexander.bot.cmd.commands.subcommands.groups.TableOtherSubcommandGroup;
 import com.alexander.bot.error.exceptions.BotCommandException;
-import com.alexander.bot.tools.SqlInterpeter;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,9 +1,11 @@
-package com.alexander.controller.model.request;
+package com.alexander.bot.model.request;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class CreateDatabaseRequestDTO {
-    String name;
     String container;
+    String name;
 }
