@@ -23,6 +23,7 @@ public class ProcedureCreateSubcommand extends BotSubcommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
+        event.deferReply().queue();
         String containerName = String.format("%s-%s", event.getOption("container").getAsString(), event.getUser().getId());
         String database = event.getOption("database").getAsString();
         String sql = sqlInterpeter.createSqlString(getOptionsMap(event));
@@ -34,7 +35,7 @@ public class ProcedureCreateSubcommand extends BotSubcommand {
                 containerName, database, sql
         );
         ResponseEntity<String> output = restTemplate.postForEntity("http://localhost:15000/ssh/execcmd", cmd, String.class);
-        event.reply(output.getBody()).queue();
+        event.getHook().sendMessage(output.getBody()).queue();
     }
 
     @Override

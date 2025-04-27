@@ -23,6 +23,7 @@ public class ContainerCreateSubcommand extends BotSubcommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
+        event.deferReply().queue();
         String name = String.format("%s-%s", event.getOption("name").getAsString(), event.getUser().getId());
         String cmd = String.format("/usr/local/bin/docker create --name %s -e POSTGRES_PASSWORD=pass -p 5432:5432 postgres", name);
         ResponseEntity<String> output = restTemplate.postForEntity("http://localhost:15000/ssh/execcmd", cmd, String.class);
@@ -30,7 +31,7 @@ public class ContainerCreateSubcommand extends BotSubcommand {
         createContainerRequestDTO.setName(name.toString());
         createContainerRequestDTO.setDiscordId(event.getUser().getId());
         sendRequestToAccManager(event.getUser().getId(), name.toString());
-        event.reply(output.getBody()).queue();
+        event.getHook().sendMessage(output.getBody()).queue();
     }
 
     @Override

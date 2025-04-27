@@ -23,6 +23,7 @@ public class TableSelectSubcommand extends BotSubcommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
+        event.deferReply().queue();
         String containerName = String.format("%s-%s", event.getOption("container").getAsString(), event.getUser().getId()) ;
         String cmd = String.format(
                 "/usr/local/bin/docker start %1$s && " +
@@ -32,7 +33,7 @@ public class TableSelectSubcommand extends BotSubcommand {
                 containerName, event.getOption("database").getAsString(), sqlInterpeter.createSqlString(getOptionsMap(event))
         );
         ResponseEntity<String> output = restTemplate.postForEntity("http://localhost:15000/ssh/execcmd", cmd, String.class);
-        event.reply(output.getBody()).queue();
+        event.getHook().sendMessage(output.getBody()).queue();
     }
 
     @Override

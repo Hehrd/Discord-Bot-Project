@@ -22,13 +22,14 @@ public class ContainerStopSubcommand extends BotSubcommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
+        event.deferReply().queue();
         StringBuffer containerName = new StringBuffer();
         containerName.append(event.getOption("name").getAsString())
                 .append("-")
                 .append(event.getUser().getId());
         String cmd = String.format("/usr/local/bin/docker stop %s", containerName);
         ResponseEntity<String> output = restTemplate.postForEntity("http://localhost:15000/ssh/execcmd", cmd, String.class);
-        event.reply(output.getBody()).queue();
+        event.getHook().sendMessage(output.getBody()).queue();
     }
 
     @Override

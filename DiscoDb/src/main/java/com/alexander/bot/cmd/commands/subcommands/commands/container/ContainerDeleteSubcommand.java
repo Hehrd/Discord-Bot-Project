@@ -25,6 +25,7 @@ public class ContainerDeleteSubcommand extends BotSubcommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
+        event.deferReply().queue();
         String containerName = String.format("%s-%s", event.getOption("name").getAsString(), event.getUser().getId());
         StringBuffer cmd = new StringBuffer();
         cmd.append(String.format("/usr/local/bin/docker stop %s", containerName));
@@ -32,7 +33,7 @@ public class ContainerDeleteSubcommand extends BotSubcommand {
         cmd.append(String.format("/usr/local/bin/docker rm %s", containerName));
         ResponseEntity<String> output = restTemplate.postForEntity("http://localhost:15000/ssh/execcmd", cmd.toString(), String.class);
         sendRequestToAccManager(event.getUser().getId(), containerName);
-        event.reply(output.getBody()).queue();
+        event.getHook().sendMessage(output.getBody()).queue();
     }
 
     @Override

@@ -24,6 +24,7 @@ public class TableCreateSubcommand extends BotSubcommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
+        event.deferReply().queue();
         String containerName = String.format("%s-%s", event.getOption("container").getAsString(), event.getUser().getId());
         String name = event.getOption("name").getAsString();
         String database = event.getOption("database").getAsString();
@@ -41,7 +42,7 @@ public class TableCreateSubcommand extends BotSubcommand {
                 .container(containerName)
                 .database(database)
                 .build());
-        event.reply(output.getBody()).queue();
+        event.getHook().sendMessage(output.getBody()).queue();
     }
 
     @Override

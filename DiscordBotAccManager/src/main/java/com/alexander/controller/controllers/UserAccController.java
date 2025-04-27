@@ -33,7 +33,7 @@ public class UserAccController {
     }
 
     @RequestMapping(value = "/apikeys/genkey", method = RequestMethod.POST)
-    public ResponseEntity<String> genKey(@RequestHeader String stripeAuth) {
+    public ResponseEntity<String> genKey(@RequestHeader("Authorization") String accessToken) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body("Successfully generated key!");

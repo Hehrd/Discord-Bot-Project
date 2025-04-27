@@ -24,6 +24,7 @@ public class TableColumnAddSubcommand extends BotSubcommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
+        event.deferReply().queue();
         StringBuffer container = new StringBuffer();
         container
                 .append(event.getOption("container").getAsString())
@@ -39,7 +40,7 @@ public class TableColumnAddSubcommand extends BotSubcommand {
                 container.toString(), database, sql
         );
         ResponseEntity<String> output = restTemplate.postForEntity("http://localhost:15000/ssh/execcmd", cmd, String.class);
-        event.reply(output.getBody()).queue();
+        event.getHook().sendMessage(output.getBody()).queue();
     }
 
     @Override

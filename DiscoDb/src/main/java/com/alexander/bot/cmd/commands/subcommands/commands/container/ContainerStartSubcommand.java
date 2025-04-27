@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 @Component
 public class ContainerStartSubcommand extends BotSubcommand {
+
     @Autowired
     public ContainerStartSubcommand(RestTemplate restTemplate, CreateTableInterpreter interpreter, JWTService jwtService) {
         super("start", "Start a container", restTemplate, interpreter, jwtService);
@@ -22,13 +23,14 @@ public class ContainerStartSubcommand extends BotSubcommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
+        event.deferReply().queue();
         StringBuffer containerName = new StringBuffer();
         containerName.append(event.getOption("name").getAsString())
                      .append("-")
                      .append(event.getUser().getId());
         String cmd = String.format("/usr/local/bin/docker start %s", containerName);
         ResponseEntity<String> output = restTemplate.postForEntity("http://localhost:15000/ssh/execcmd", cmd, String.class);
-        event.reply(output.getBody()).queue();
+        event.getHook().sendMessage(output.getBody()).queue();
     }
 
     @Override

@@ -2,33 +2,37 @@
 
 import { useState } from "react";
 import AnimatedButton from "@/components/animatedButton";
+import { useSession } from 'next-auth/react';
 
 export default function PaymentPage() {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    const { data: session } = useSession();
 
     const handlePurchase = async () => {
         setLoading(true);
         try {
-            const res = await fetch("/api/payment/start", {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE}/acc/apikeys/genkey`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+		    Authorization: `Bearer ${session.accessToken}`,
                 },
                 body: JSON.stringify({ plan: "basic" }),
             });
 
             if (!res.ok) throw new Error("Payment failed");
 
-            const data = await res.json();
+            const data = await res.text();
 
-            if (data.success) {
+            if (data.includes("Successfully")) {
                 setSuccess(true);
             } else {
                 throw new Error("Payment unsuccessful");
             }
         } catch (err) {
             alert("Something went wrong. Try again.");
+	    console.log(err);
         } finally {
             setLoading(false);
         }

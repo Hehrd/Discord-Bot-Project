@@ -23,17 +23,19 @@ public class DatabaseDownloadSubcommand extends BotSubcommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
+        event.deferReply().queue();
         String dbName = event.getOption("name").getAsString();
         String containerName = String.format("%s-%s", event.getOption("container").getAsString(), event.getUser().getId());
         String dumpName = String.format("/tmp/dump-%s-%s.sql", dbName, event.getUser().getId());
         CommandBuilder commandBuilder = new CommandBuilder();
-        commandBuilder.addPart(String.format("/usr/local/bin/docker start %1$s", containerName))
-                .addPart(String.format("/usr/local/bin/docker exec %1$s", containerName))
+        commandBuilder.addPart(String.format("/usr/local/bin/docker start %s &&", containerName))
+                .addPart(String.format("/usr/local/bin/docker exec %s", containerName))
                 .addPart("bash -c")
-                .addPartInQuotes(String.format("pg_dump -h localhost -p 5432 -U postgres %s > %s", dbName, dumpName));
+                .addPartInQuotes(String.format("pg_dump -h localhost -p 5432 -U postgres %s > %s", dbName, dumpName))
+                .addPart(String.format("&& /usr/local/bin/docker cp %s:%s %s", containerName, dumpName, dumpName));
         restTemplate.postForEntity("http://localhost:15000/ssh/execcmd", commandBuilder.build(), String.class);
         File dumpFile = new File(dumpName);
-        event.replyFiles(FileUpload.fromData(dumpFile)).queue();
+        event.getHook().sendFiles(FileUpload.fromData(dumpFile)).queue();
     }
 
     @Override

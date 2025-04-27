@@ -46,7 +46,7 @@ public class SSHClient {
         channel.connect();
         InputStream input = channel.getInputStream();
         byte[] tmp = new byte[2048];
-        Thread.sleep(10000);
+        Thread.sleep(3000);
         while (true) {
             while (input.available() > 0) {
                 int i = input.read(tmp, 0, 2048);

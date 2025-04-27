@@ -23,6 +23,7 @@ public class QueryCommand extends BotCommand {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) throws BotCommandException {
+        event.deferReply().queue();
         String containerName = String.format("%s-%s", event.getOption("container").getAsString(), event.getUser().getId());
         String database = event.getOption("database").getAsString();
         String query = event.getOption("sql").getAsString();
@@ -30,13 +31,13 @@ public class QueryCommand extends BotCommand {
                 "/usr/local/bin/docker start %1$s && " +
                         "/usr/local/bin/docker exec %1$s " +
                         "psql -h localhost -p 5432 -U postgres -d %2$s " +
-                        "-c \"\\c db\" -c \"%3$s;\"",
+                        "-c \"%3$s;\"",
                 containerName,
                 database,
                 query);
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> output = restTemplate.postForEntity("http://localhost:15000/ssh/execcmd", cmd, String.class);
-        event.reply(output.getBody()).queue();
+        event.getHook().sendMessage(output.getBody()).queue();
     }
 
     @Override
